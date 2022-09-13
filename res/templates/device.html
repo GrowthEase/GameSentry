@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameSentry—Config</title>
+    <link rel="shortcut icon" href="https://dun.163.com/public/res/favicon.ico"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body class="gray-bg">
+<div class=" dashboard-header" style="background-color: #1ab394">
+    <div class="text-center" style="padding: 6px">
+        <span style="color: #ffffff; font-size: 30px; font-weight: 700">GameSentry</span>
+    </div>
+</div>
+<form action="/index" method=post class="center-block container"
+      style="padding-top: 30px; padding-bottom: 0px;width: 400px;font-size: 20px">
+    <div>
+        <label for="package"><b>请选择目标手游的包名</b></label>
+        <input list="package"
+               name="package"
+               required="true"
+               style="width: 100%"
+               placeholder="----------">
+
+        <datalist id="package">
+            {% for app in app_list %}
+            <option>{{ app.identifier + "---" + app.name }}</option>
+            {% endfor %}
+        </datalist>
+    </div>
+    <div class="form-group" style="padding-top: 15px">
+        <label for="protobuf"><b>请选择是否开启Protobuf协议</b></label>
+        <select class="form-control"
+                name="protobuf"
+                id="protobuf"
+                required=true>
+            <option>false</option>
+            <option>true</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="log"><b>请选择是否开启Log日志</b></label>
+        <select class="form-control"
+                id="log"
+                name="log"
+                required=true>
+            <option>false</option>
+            <option>true</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="lua"><b>请选择是否需要Dump lua文件</b></label>
+        <select class="form-control"
+                id="lua"
+                name="lua"
+                required=true>
+            <option>false</option>
+            <option>true</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="hotfix"><b>请选择是否需要热更 lua文件</b></label>
+        <select class="form-control"
+                id="hotfix"
+                name="hotfix"
+                required=true>
+            <option>false</option>
+            <option>true</option>
+        </select>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">启动</button>
+    </div>
+</form>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

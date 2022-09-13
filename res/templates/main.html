@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameSentry—Features</title>
+    <link rel="shortcut icon" href="https://dun.163.com/public/res/favicon.ico"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-treegrid/0.2.0/css/jquery.treegrid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/theme/dracula.min.css"/>
+</head>
+<body class="gray-bg">
+<div class="dashboard-header" style="background-color: #1ab394">
+    <div class="col-sm-12 text-center" style="padding: 6px">
+        <span style="color: #ffffff; font-size: 30px; font-weight: 700">GameSentry</span>
+    </div>
+</div>
+<ul class="nav nav-pills mb-3 justify-content-center" style="padding-top: 6px" id="pills-tab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="pills-protocol-tab" data-toggle="pill" href="#pills-protocol" role="tab"
+           aria-controls="pills-protocol" aria-selected="true">协议展示</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-function-tab" data-toggle="pill" href="#pills-function" role="tab"
+           aria-controls="pills-function" aria-selected="false">函数展示</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-hook-tab" data-toggle="pill" href="#pills-hook" role="tab"
+           aria-controls="pills-hook" aria-selected="false">标记展示</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-trace-tab" data-toggle="pill" href="#pills-trace" role="tab"
+           aria-controls="pills-trace" aria-selected="false">跟踪展示</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-field-tab" data-toggle="pill" href="#pills-field" role="tab"
+           aria-controls="pills-field" aria-selected="false">内存展示</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-lua-tab" data-toggle="pill" href="#pills-lua" role="tab"
+           aria-controls="pills-lua" aria-selected="false">lua展示</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-log-tab" data-toggle="pill" href="#pills-log" role="tab"
+           aria-controls="pills-log" aria-selected="false">log展示</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-script-tab" data-toggle="pill" href="#pills-script" role="tab"
+           aria-controls="pills-script" aria-selected="false">自定义</a>
+    </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-protocol" role="tabpanel" aria-labelledby="pills-protocol-tab">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 vh-100" style="overflow:auto;">
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="protocol_index_table">
+                    </table>
+                </div>
+                <div class="col-sm-6 vh-100" style="overflow:auto;">
+                    <div class="row justify-content-end" style="padding: 10px">
+                        <button type="button" class="btn btn-primary" style="margin-right: 15px"
+                                onclick=closeHookProtocol()>屏蔽
+                        </button>
+                        <button type="button" class="btn btn-primary" style="margin-right: 15px"
+                                onclick=sendValueProtocol()>配置
+                        </button>
+                    </div>
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="protocol_value_table">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-function" role="tabpanel" aria-labelledby="pills-function-tab">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-2 vh-100" style="overflow:auto;">
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="function_image_table">
+                    </table>
+                </div>
+                <div class="col-4 vh-100" style="overflow:auto;">
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="function_class_table">
+                    </table>
+                </div>
+                <div class="col-2 vh-100" style="overflow:auto;">
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="function_method_table">
+                    </table>
+                </div>
+                <div class="col-4 vh-100" style="overflow:auto;">
+                    <div class="row justify-content-end" style="padding: 10px">
+                        <button type="button" class="btn btn-warning" style="margin-right: 15px"
+                                onclick=showFunction()>详细展示(类)
+                        </button>
+                        <button type="button" class="btn btn-warning" style="margin-right: 15px"
+                                onclick=traceFunction()>trace(类)
+                        </button>
+                        <button type="button" class="btn btn-primary" style="margin-right: 15px"
+                                onclick=hookFunction()>hook
+                        </button>
+                        <button type="button" class="btn btn-primary" style="margin-right: 15px"
+                                onclick=sendFunctionValue(true)>重发
+                        </button>
+                        <button type="button" class="btn btn-primary" style="margin-right: 15px"
+                                onclick=sendFunctionValue(false)>配置
+                        </button>
+                    </div>
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="function_method_value_table">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-hook" role="tabpanel" aria-labelledby="pills-hook-tab">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6 vh-100" style="overflow:auto;">
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="hook_method_table">
+                    </table>
+                </div>
+                <div class="col-6 vh-100" style="overflow:auto;">
+                    <div class="row justify-content-end" style="padding: 10px">
+                        <button type="button" class="btn btn-primary" style="margin-right: 15px"
+                                onclick=closeFunctionHook()>屏蔽
+                        </button>
+                    </div>
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="hook_method_value_table">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-trace" role="tabpanel" aria-labelledby="pills-trace-tab">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 center-block container">
+                    <div class="row justify-content-end" style="padding: 10px">
+                        <div class="btn-group dropleft">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" onclick=showTrace()>屏蔽
+                            </button>
+                            <div class="dropdown-menu" id="trace_menu">
+                            </div>
+                        </div>
+                    </div>
+                    <textarea id="show_trace"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-field" role="tabpanel" aria-labelledby="pills-field-tab">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-2 vh-100" style="overflow:auto;">
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="field_image_table">
+                    </table>
+                </div>
+                <div class="col-3 vh-100" style="overflow:auto;">
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="field_class_table">
+                    </table>
+                </div>
+                <div class="col-1 vh-100" style="overflow:auto;">
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="field_instance_table">
+                    </table>
+                </div>
+                <div class="col-6 vh-100" style="overflow:auto;">
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="field_table">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-lua" role="tabpanel" aria-labelledby="pills-lua-tab">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6 vh-100" style="overflow:auto;">
+                    <table class="table table-hover table-bordered" style="word-break:break-all"
+                           id="lua_exist_table">
+                    </table>
+                </div>
+                <div class="col-6 vh-100" style="overflow:auto;">
+                    <div class="card bg-light mb-3" style="width: 36rem; margin: 10px">
+                        <div class="card-body">
+                            <h5 class="card-title">Step1: Lua pull</h5>
+                            <p class="card-text">将私有目录下的 Lua 文件 pull 到 tools/luadump 目录下</p>
+                            <button type="button" class="btn btn-primary" onclick="lua_pull()">确定</button>
+                        </div>
+                    </div>
+                    <div class="card bg-light mb-3" style="width: 36rem; margin: 10px">
+                        <div class="card-body">
+                            <h5 class="card-title">Step2: Lua 解密</h5>
+                            <p class="card-text">对 tools/luadump 目录下的 lua 文件进行解密后迁移到 tools/unlua 目录下<br>
+                                不解密则不进行操作</p>
+                            <button type="button" class="btn btn-primary" onclick="lua_decrypt()">解密</button>
+                        </div>
+                    </div>
+                    <div class="card bg-light mb-3" style="width: 36rem; margin: 10px">
+                        <div class="card-body">
+                            <h5 class="card-title">Step3: Lua push</h5>
+                            <p class="card-text">将 tools/unlua 目录下的单个 lua 文件 push 到私有目录下<br>
+                                不解密则选择 tools/luadump 目录<br>
+                                请输入绝对路径</p>
+                            <input type="text" class="form-control" id="lua_push_file" placeholder="请输入绝对路径"/>
+                            <button type="button" class="btn btn-primary" style="margin-top: 10px" onclick="lua_push()">
+                                确定
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-log" role="tabpanel" aria-labelledby="pills-log-tab">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 center-block container">
+                    <textarea id="show_log"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-script" role="tabpanel" aria-labelledby="pills-script-tab">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 center-block container">
+                    <textarea id="load_frida_script"></textarea>
+                    <center>
+                        <input style="margin: 6px" type="button" value="Run Custom Frida Script" class="btn btn-success"
+                               onclick="frida_custom_script()">
+                    </center>
+                    <textarea id="log_frida_script"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="classModal" tabindex="-1" role="dialog" aria-labelledby="classModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: max-content;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="classModalLabel">Class详细信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="white-space: pre-line;">
+                <span id="class_show_info"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.13.0/extensions/treegrid/bootstrap-table-treegrid.js"></script>
+<script src="https://cdn.bootcss.com/jquery-treegrid/0.2.0/js/jquery.treegrid.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/javascript/javascript.js"></script>
+<script src="js/util.js"></script>
+<script src="js/protocol.js"></script>
+<script src="js/function.js"></script>
+<script src="js/field.js"></script>
+<script src="js/lua.js"></script>
+<script src="js/hook.js"></script>
+<script src="js/trace.js"></script>
+<script src="js/script.js"></script>
+<script src="js/log.js"></script>
+</body>
+</html>
