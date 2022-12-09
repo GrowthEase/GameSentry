@@ -296,7 +296,22 @@ async function init() {
     await script.load()
     api = script.exports
     await device.resume(pid)
-    await api.il2cpp_init(start_pb, start_log, start_lua, start_hotfix, target)
+
+    let engineName = await api.engineName()
+    console.log('\033[40;35m engineName: \x1b[45;97m'+engineName+'\033[40;35m init start! \033[0m');
+    if(engineName == "il2cpp"){
+        await api.il2cpp_init(start_pb, start_log, start_lua, start_hotfix, target)
+    }
+        // else if(engineName == "cocos2djs"){
+        //
+        // }else if(engineName == "cocos2dlua"){
+        //
+        // }else if(engineName == "mono"){
+        //
+        // }
+    else {
+        res_start.send("不支持的游戏引擎！")
+    }
 }
 
 async function il2cpp_list_image() {
