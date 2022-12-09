@@ -28,10 +28,13 @@ server.listen(5000, () => {
     console.log("Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)")
 })
 
+let isConnect = false
 io.on('connection', (socket) => {
     console.log('Socket connected');
+    isConnect = true
     socket.on('disconnect', () => {
         console.log('Socket disconnected');
+        isConnect = false
     });
 });
 
@@ -302,9 +305,12 @@ async function init() {
     if(engineName == "il2cpp"){
         await api.il2cpp_init(start_pb, start_log, start_lua, start_hotfix, target)
     }
-        // else if(engineName == "cocos2djs"){
-        //
-        // }else if(engineName == "cocos2dlua"){
+    else if(engineName == "cocos2djs"){
+        await api.cocos_js_dump_replace(target)
+        res_start.render("cocos_main.html",{})
+
+    }
+        // else if(engineName == "cocos2dlua"){
         //
         // }else if(engineName == "mono"){
         //
@@ -522,6 +528,19 @@ function onMessage(message, data) {
             writeFileReport(value)
             writeOtherFile(JSON.stringify(value), il2cpp_show_class_path)
             break
+        case "cocos_js_dump":
+
+            if(isConnect){
+                skt.timeout(2000).emit('cocos_js_dump', value)
+            }else {
+                console.log('\033[40;35m '+value+' \033[0m');
+                const currentTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+                const param = currentTime + '\r\n' + data + '\r\n'
+                fs.writeFileSync(cocos_js_dump_log_path, param, {flag: 'a'})
+            }
+
+            // writeOtherFile(value+"\n", cocos_js_dump_log_path)
+            break
         default:
             writeFileReport(value)
             writeFile(value)
@@ -611,4 +630,5 @@ const unity_dump_lua_exist_path = __dirname + "/log/" + "unity_dump_lua_exist_pa
 const il2cpp_hook_function_result_path = __dirname + "/log/" + "il2cpp_hook_function_result_path.txt"
 const il2cpp_trace_function_path = __dirname + "/log/" + "il2cpp_trace_function_path.txt"
 const il2cpp_show_class_path = __dirname + "/log/" + "il2cpp_show_class_path.txt"
+const cocos_js_dump_log_path = __dirname + "/log/" + "cocos_js_dump_log_path.txt"
 
