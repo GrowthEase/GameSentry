@@ -531,7 +531,7 @@ function onMessage(message, data) {
         case "cocos_js_dump":
 
             if(isConnect){
-                skt.timeout(2000).emit('cocos_js_dump', value)
+                io.timeout(2000).emit('cocos_js_dump', value)
             }else {
                 console.log('\033[40;35m '+value+' \033[0m');
                 const currentTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
