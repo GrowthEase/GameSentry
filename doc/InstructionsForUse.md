@@ -11,7 +11,8 @@
 | unity il2cpp | ✔    |
 | ------------ | ---- |
 | unity mono   | ❌    |
-| cocos        | ❌    |
+| cocos-js      | ✔     |
+| cocos-lua     | ❌    |
 
 **一、环境安装：**
 
