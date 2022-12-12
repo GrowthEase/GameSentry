@@ -535,7 +535,7 @@ function onMessage(message, data) {
             }else {
                 console.log('\033[40;35m '+value+' \033[0m');
                 const currentTime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
-                const param = currentTime + '\r\n' + data + '\r\n'
+                const param = currentTime + '\r\n' + value + '\r\n'
                 fs.writeFileSync(cocos_js_dump_log_path, param, {flag: 'a'})
             }
 
