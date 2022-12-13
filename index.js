@@ -545,7 +545,7 @@ function onMessage(message, data) {
             // writeOtherFile(value+"\n", cocos_js_dump_log_path)
             break
         case "error":
-            console.log('\033[37;41m [+] Unable to read ' + value +'\033[0m');
+            console.log('\033[37;41m [+]  ' + value +'\033[0m');
             writeFile(value)
             break
         default:
