@@ -310,9 +310,11 @@ async function init() {
         res_start.render("cocos_main.html",{})
 
     }
-        // else if(engineName == "cocos2dlua"){
-        //
-        // }else if(engineName == "mono"){
+    else if(engineName == "cocos2dlua"){
+        await api.cocos_lua_dump_replace(target)
+        res_start.render("cocos_main.html",{})
+    }
+        // else if(engineName == "mono"){
         //
         // }
     else {
@@ -528,6 +530,7 @@ function onMessage(message, data) {
             writeFileReport(value)
             writeOtherFile(JSON.stringify(value), il2cpp_show_class_path)
             break
+        case "cocos_lua":
         case "cocos_js_dump":
 
             if(isConnect){
@@ -540,6 +543,10 @@ function onMessage(message, data) {
             }
 
             // writeOtherFile(value+"\n", cocos_js_dump_log_path)
+            break
+        case "error":
+            console.log('\033[37;41m [+]  ' + value +'\033[0m');
+            writeFile(value)
             break
         default:
             writeFileReport(value)
