@@ -12,7 +12,7 @@
 | ------------ | ---- |
 | unity mono   | ❌    |
 | cocos-js      | ✔     |
-| cocos-lua     | ❌    |
+| cocos-lua     | ✔    |
 
 **一、环境安装：**
 
