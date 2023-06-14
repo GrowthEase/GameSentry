@@ -52,4 +52,5 @@ GameSentry，主要通过分析游戏协议内容、游戏函数逻辑和对应�
 
 官方交流社群
 
-![加入群聊二维码](doc/img/加入群聊二维码.png)
+![开源小助理](https://github.com/GrowthEase/GameSentry/blob/main/doc/img/%E9%98%BF%E7%A7%8B%E7%9A%84%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1.jpg)
+
